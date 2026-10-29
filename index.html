@@ -161,6 +161,9 @@ svg .on{fill:var(--seal)} svg .off{fill:none;stroke:var(--muted);stroke-width:1.
 .miss{list-style:none;padding:0;margin:14px auto 0;text-align:left;max-width:560px;display:grid;gap:8px}
 .miss li{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:10px 14px;border-radius:12px;background:var(--bg);border:2px solid var(--edge)}
 .miss .w{font-family:var(--f-kai);font-size:1.4rem;font-weight:700}
+.pn{display:block;flex-basis:100%;font-size:.9rem;font-weight:500;color:var(--muted);line-height:1.5}
+.fcard .rd li.nw .zz{opacity:.7}
+.fcard .rd .nt{font-size:1.05rem;color:var(--muted)}
 mark{background:var(--pencil);color:var(--pencil-ink);border-radius:4px;padding:0 2px}
 .acts{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:22px}
 
@@ -471,22 +474,36 @@ var CHARS=Object.keys(CH);
 var POLYBY={};BANK.forEach(function(it){if(it.p)(POLYBY[it.t]=POLYBY[it.t]||[]).push(it)});
 var READ=window.ZYZX_READINGS||{},EXBY={};
 BANK.forEach(function(it){var k=it.t+'|'+it.z;if(!EXBY[k]||(it.p&&!EXBY[k].p))EXBY[k]=it});
-function polyNote(it){
-  if(!it.p)return '';
-  var S='<br><span style="font-weight:500;font-size:1.05rem">',list=READ[it.t],out=[],seen={};
-  if(list&&list.length===1)return S+'「'+it.t+'」在《國語辭典簡編本》只有一個念法：'+zy(list[0])+'</span>';
-  if(list){
-    list.forEach(function(e){
-      var z=typeof e==='string'?e:e[0],note=typeof e==='string'?'':e[1];
-      if(z===it.z||seen[z])return;seen[z]=1;
-      var ex=EXBY[it.t+'|'+z];
-      out.push(ex?'「'+ex.w+'」念 '+zy(z):zy(z)+(note?'（'+note+'）':''));
-    });
-  }else{
-    (POLYBY[it.t]||[]).forEach(function(o){if(o.z!==it.z&&!seen[o.z]){seen[o.z]=1;out.push('「'+o.w+'」念 '+zy(o.z))}});
-  }
-  return out.length?S+'「'+it.t+'」還有別的念法：'+out.join('、')+'</span>':'';
+/* 多音字：依讀音表列出這個字的所有讀音，每個讀音帶題庫裡的詞，沒有詞的附說明 */
+function readingsOf(t){
+  var list=READ[t],out=[];
+  if(list)list.forEach(function(e){
+    var z=typeof e==='string'?e:e[0],note=typeof e==='string'?'':e[1];
+    var ws=(CH[t]?CH[t].items:[]).filter(function(o){return o.z===z});
+    ws.sort(function(a,b){return (b.p?1:0)-(a.p?1:0)});
+    out.push({z:z,items:ws,note:note});
+  });
+  else (POLYBY[t]||[]).forEach(function(o){
+    var r=out.filter(function(x){return x.z===o.z})[0];
+    if(r)r.items.push(o);else out.push({z:o.z,items:[o],note:''});
+  });
+  return out;
 }
+function polyOthers(it){
+  var rs=readingsOf(it.t);
+  if(rs.length===1)return {single:rs[0].z,list:[]};
+  return {list:rs.filter(function(r){return r.z!==it.z}).map(function(r){
+    return r.items.length?'「'+r.items[0].w+'」念 '+zy(r.z):zy(r.z)+(r.note?'（'+r.note+'）':'');
+  })};
+}
+function polyText(it){
+  if(!it.p)return '';
+  var o=polyOthers(it);
+  if(o.single)return '「'+it.t+'」在《國語辭典簡編本》只有一個念法：'+zy(o.single);
+  return o.list.length?'「'+it.t+'」還有別的念法：'+o.list.join('、'):'';
+}
+function polyNote(it){var t=polyText(it);return t?'<br><span style="font-weight:500;font-size:1.05rem">'+t+'</span>':''}
+function polySmall(it){var t=polyText(it);return t?'<small class="pn">'+t+'</small>':''}
 
 /* ---------- 紀錄 ---------- */
 var KEY='zyzx-explorers-v1';
@@ -778,7 +795,7 @@ function next(){
 function missList(){
   var seen={},li='';
   G.miss.forEach(function(it){var k=kk(it);if(seen[k])return;seen[k]=1;
-    li+='<li><span class="w">'+mark(it)+'</span><span>「'+it.t+'」'+zy(it.z)+'</span></li>'});
+    li+='<li><span class="w">'+mark(it)+'</span><span>「'+it.t+'」'+zy(it.z)+'</span>'+polySmall(it)+'</li>'});
   return li?'<p class="sum" style="margin-top:18px">這些題目已放進錯題本：</p><ul class="miss">'+li+'</ul>':'';
 }
 function freshHtml(){
@@ -863,8 +880,10 @@ $('#box-body').addEventListener('click',function(e){
   var c=b.dataset.c,info=CH[c];
   $$('.tile.sel').forEach(function(t){t.classList.remove('sel')});b.classList.add('sel');
   var d=$('#box-detail');d.hidden=false;
-  d.innerHTML='<span class="cell">'+c+'</span><div class="info"><p>'+info.zs.map(zy).join('　')+'　<span style="color:var(--muted)">'+(S.learned[c]?'已收集':'還沒收集')+'</span></p><p class="ws">'+
-    info.items.map(mark).join('、')+'</p></div>';
+  var extra=READ[c]?readingsOf(c).filter(function(r){return !r.items.length}):[];
+  var zs=READ[c]?readingsOf(c).filter(function(r){return r.items.length}).map(function(r){return r.z}):info.zs;
+  d.innerHTML='<span class="cell">'+c+'</span><div class="info"><p>'+zs.map(zy).join('　')+'　<span style="color:var(--muted)">'+(S.learned[c]?'已收集':'還沒收集')+'</span></p><p class="ws">'+
+    info.items.map(mark).join('、')+'</p>'+(extra.length?'<small class="pn">其他念法：'+extra.map(function(r){return zy(r.z)+(r.note?'（'+r.note+'）':'')}).join('、')+'</small>':'')+'</div>';
 });
 
 /* ---------- 複習 ---------- */
@@ -960,14 +979,16 @@ function showCard(){
   c.setAttribute('aria-label',C.flip?'字卡背面，點一下翻回正面':'字卡正面，點一下看答案');
   if(u.poly){
     if(!C.flip){
-      c.innerHTML='<span class="chip-t">多音字</span><p class="prompt">這個字有 '+new Set(u.items.map(function(i){return i.z})).size+' 種念法，你都知道嗎？</p>'+
+      var nr=readingsOf(u.t).length;
+      c.innerHTML='<span class="chip-t">多音字</span><p class="prompt">'+(nr>1?'這個字有 '+nr+' 種念法，你都知道嗎？':'這個字現在怎麼念？')+'</p>'+
         '<div class="word"><div class="cw"><span class="cell hit" style="--cs:clamp(110px,28vw,170px)">'+u.t+'</span></div></div><p class="tip">點一下看答案</p>';
     }else{
-      var by={},ord=[];
-      u.items.forEach(function(it){if(!by[it.z]){by[it.z]=[];ord.push(it.z)}by[it.z].push(it)});
-      c.innerHTML='<span class="chip-t">多音字</span><ul class="rd">'+ord.map(function(z){
-        return '<li><span class="zz">'+zy(z)+'</span><span class="ww">'+by[z].map(mark).join('、')+'</span></li>';
-      }).join('')+'</ul><p class="tip">點一下翻回正面</p>';
+      var rs=readingsOf(u.t);
+      c.innerHTML='<span class="chip-t">多音字</span><ul class="rd">'+rs.map(function(r){
+        var ws=r.items.slice(0,4);
+        return '<li'+(ws.length?'':' class="nw"')+'><span class="zz">'+zy(r.z)+'</span>'+
+          (ws.length?'<span class="ww">'+ws.map(mark).join('、')+'</span>':'<span class="nt">'+(r.note||'題庫裡沒有這個念法的詞')+'</span>')+'</li>';
+      }).join('')+'</ul>'+(rs.length===1?'<p class="tip">以前有別的念法，現在《國語辭典簡編本》只有這一個。</p>':'')+'<p class="tip">點一下翻回正面</p>';
     }
   }else{
     var it=u.it;
@@ -999,7 +1020,7 @@ function renderWrong(){
     return;
   }
   $('#wrong-body').innerHTML='<button class="btn primary" id="w-go" style="width:100%;margin-bottom:18px">練習錯題（每次最多 10 題）</button><ul class="miss" style="max-width:none">'+
-    its.map(function(it){return '<li><span class="w">'+mark(it)+'</span><span>「'+it.t+'」'+zy(it.z)+'</span></li>'}).join('')+'</ul>';
+    its.map(function(it){return '<li><span class="w">'+mark(it)+'</span><span>「'+it.t+'」'+zy(it.z)+'</span>'+polySmall(it)+'</li>'}).join('')+'</ul>';
   $('#w-go').onclick=startReview;
 }
 
@@ -1090,7 +1111,7 @@ function showCheck(){
   $('#ck-list').innerHTML=SELF.qs.map(function(q,i){
     var it=q.it;
     var ans=q.type==='z'
-      ?'<small>'+(it.p?'多音字':'字音')+'，注音是</small>'+zy(it.z)
+      ?'<small>'+(it.p?'多音字':'字音')+'，注音是</small>'+zy(it.z)+polySmall(it)
       :'<small>字形，國字是</small><span class="kai">'+it.t+'</span>';
     return '<li data-i="'+i+'"><span class="no">'+(i+1)+'</span><span class="w">'+mark(it)+'</span><span class="a">'+ans+'</span>'+
       '<span class="yn"><button data-g="1" aria-pressed="false">對</button><button data-g="0" aria-pressed="false">錯</button></span></li>';
@@ -1173,7 +1194,7 @@ function finishSelf(){
   var r=SELF.res,n=r.length,tot=r.reduce(function(a,x){return a+x.secs},0),avg=tot/n;
   var right=r.filter(function(x){return x.ok}).length,t=S.tm[SELF.pool];
   var li=r.map(function(x){
-    return '<li><span class="w">'+mark(x.it)+'</span><span>'+(x.ok?'✓ 對':'✕ 錯')+'　'+fmt(x.secs)+' 秒</span></li>';
+    return '<li><span class="w">'+mark(x.it)+'</span><span>'+(x.ok?'✓ 對':'✕ 錯')+'　'+fmt(x.secs)+' 秒</span>'+polySmall(x.it)+'</li>';
   }).join('');
   sfx('win');
   showResult('自評模式　'+LV[SELF.pool].name,
@@ -1188,7 +1209,7 @@ function finishSelf(){
 function finishSelfPlain(){
   var r=SELF.res,n=r.length,right=r.filter(function(x){return x.ok}).length;
   var li=r.map(function(x){
-    return '<li><span class="w">'+mark(x.it)+'</span><span>'+(x.ok?'✓ 對':'✕ 錯')+'　「'+x.it.t+'」'+zy(x.it.z)+'</span></li>';
+    return '<li><span class="w">'+mark(x.it)+'</span><span>'+(x.ok?'✓ 對':'✕ 錯')+'　「'+x.it.t+'」'+zy(x.it.z)+'</span>'+polySmall(x.it)+'</li>';
   }).join('');
   sfx('win');
   showResult('自評模式　'+LV[SELF.pool].name,
