@@ -3,7 +3,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
 <style>
 /* 版面概念：國小作業簿。田字格是主視覺，白天是作業簿紙，夜間是黑板與粉筆。單欄、大按鈕，適合平板單手點選。 */
 /* 色系：大耳狗的天空藍、白色和粉紅。夜間改成深藍夜空。 */
@@ -15,7 +15,7 @@
   --good:#14866b; --good-bg:#d8f5ea; --bad:#cf3d5a; --bad-bg:#ffe3e9;
   --seal:#d63a73; --on-seal:#ffffff; --edge:#bfe0f4; --cloud:rgba(255,255,255,.9);
   --f-body:'Noto Sans TC','PingFang TC','Microsoft JhengHei',system-ui,sans-serif;
-  --f-kai:'LXGW WenKai TC','DFKai-SB','BiauKai','Kaiti TC','標楷體',serif;
+  --f-kai:'EduKai','BiauKai','DFKai-SB','Kaiti TC','標楷體',serif;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
@@ -88,7 +88,6 @@ button:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outli
 .menu .btn{min-height:96px;font-size:1.5rem;flex-direction:column;gap:2px}
 .menu .wide{grid-column:1/-1}
 .badge{display:inline-block;min-width:1.6em;padding:0 .45em;border-radius:99px;background:var(--seal);color:var(--on-seal);font-size:.85rem;line-height:1.6}
-.badge[hidden]{display:none}
 .meter{background:var(--surface);border:2px solid var(--edge);border-radius:16px;padding:14px 16px;margin-bottom:16px}
 .meter .bar{height:14px;border-radius:99px;background:var(--grid);overflow:hidden;margin-top:8px}
 .meter .bar i{display:block;height:100%;background:var(--seal);border-radius:99px;transition:width .4s}
@@ -181,34 +180,6 @@ mark{background:var(--pencil);color:var(--pencil-ink);border-radius:4px;padding:
 .empty .cell{--cs:90px;margin:0 auto 14px}
 
 
-
-/* 複習 */
-.rvstat{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 16px}
-.rvstat div{flex:1;min-width:7em;background:var(--surface);border:2px solid var(--edge);border-radius:14px;padding:8px 12px;text-align:center}
-.rvstat b{display:block;font-size:1.7rem;line-height:1.2;color:var(--accent);font-variant-numeric:tabular-nums}
-.rvstat span{font-size:.85rem;color:var(--muted)}
-.fcard{display:block;width:100%;min-height:300px;background:var(--surface);border:2px solid var(--edge);border-radius:22px;padding:18px 14px 22px;text-align:center;cursor:pointer}
-.fcard.back{border-color:var(--seal)}
-.fcard .word{margin-top:6px}
-.fcard .big-zy{font-size:clamp(2.2rem,8vw,3.4rem);font-weight:900;color:var(--accent);margin:14px 0 6px}
-.fcard .tip{color:var(--muted);font-size:.95rem;margin:10px 0 0}
-.fcard .rd{list-style:none;padding:0;margin:14px auto 0;display:grid;gap:8px;max-width:520px;text-align:left}
-.fcard .rd li{display:flex;gap:14px;align-items:center;padding:8px 14px;border-radius:12px;background:var(--bg);border:2px solid var(--edge)}
-.fcard .rd .zz{flex:none;min-width:4.2em;font-size:1.5rem;font-weight:900;color:var(--accent)}
-.fcard .rd .ww{font-family:var(--f-kai);font-size:1.25rem;font-weight:700;overflow-wrap:anywhere}
-.cdnav{display:flex;gap:12px;margin-top:16px}
-.cdnav .btn{flex:1;min-height:60px;font-size:1.1rem}
-.cdnav .btn.bad[hidden]{display:none}
-/* 家長設定：縮小到右下角 */
-.corner{display:flex;justify-content:flex-end;margin-top:6px}
-.corner details{position:relative;font-size:.85rem;text-align:right}
-.corner summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:4px;min-height:44px;padding:4px 12px;color:var(--muted);font-weight:500;border-radius:99px}
-.corner summary::-webkit-details-marker{display:none}
-.corner summary:hover{background:var(--surface)}
-.corner .panel{margin-top:6px;background:var(--surface);border:2px solid var(--edge);border-radius:14px;padding:6px 12px 10px;text-align:left;min-width:min(320px,calc(100vw - 32px))}
-.corner .set-row{padding:6px 0}
-.corner .ghost{min-height:44px;font-size:.9rem}
-
 /* self */
 .sub{margin:18px 0 10px;font-size:1.1rem}
 .segs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
@@ -230,6 +201,20 @@ mark{background:var(--pencil);color:var(--pencil-ink);border-radius:4px;padding:
 .self-start{width:100%;margin-top:22px}
 .sw.notime .sw-time,.sw.notime .sw-label{display:none}
 .sw.notime .acts{margin-top:0}
+/* 字型載入 */
+.fontload{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:24px;background:var(--bg,#e7f3fc)}
+.fontload[hidden]{display:none}
+.fl-box{width:min(360px,100%);text-align:center}
+.fl-box .cell{margin:0 auto 18px;animation:flpulse 1.4s ease-in-out infinite;font-family:var(--f-body)}
+.fl-box b{display:block;font-size:1.25rem}
+.fl-box small{display:block;color:var(--muted);margin-top:4px;min-height:1.5em}
+.fl-bar{height:12px;border-radius:99px;background:var(--grid);border:2px solid var(--edge);overflow:hidden;margin:14px 0}
+.fl-bar i{display:block;height:100%;width:0;background:var(--seal);transition:width .2s}
+.fl-bar.indet i{width:35%;animation:flslide 1.2s ease-in-out infinite}
+#fl-skip{visibility:hidden}
+@keyframes flpulse{50%{transform:scale(.94)}}
+@keyframes flslide{0%{transform:translateX(-100%)}100%{transform:translateX(300%)}}
+@media (prefers-reduced-motion:reduce){.fl-box .cell,.fl-bar.indet i{animation:none}}
 /* 首頁開關 */
 .toggle{display:flex;align-items:center;gap:14px;background:var(--surface);border:2px solid var(--edge);border-radius:16px;padding:12px 16px;margin:-8px 0 16px;cursor:pointer}
 .toggle .t-txt{flex:1;min-width:0}
@@ -269,6 +254,15 @@ mark{background:var(--pencil);color:var(--pencil-ink);border-radius:4px;padding:
 }
 </style>
 
+<div class="fontload" id="fontload" role="status" aria-live="polite">
+  <div class="fl-box">
+    <div class="cell" style="--cs:96px">字</div>
+    <b id="fl-msg">字型載入中…</b>
+    <small id="fl-sub">第一次打開需要下載標準楷書字型，請稍等</small>
+    <div class="fl-bar indet" id="fl-bar"><i></i></div>
+    <button class="btn" id="fl-skip">先用備用字型開始</button>
+  </div>
+</div>
 <main class="app">
 
 <!-- 首頁 -->
@@ -289,26 +283,23 @@ mark{background:var(--pencil);color:var(--pencil-ink);border-radius:4px;padding:
     <button class="btn pencil" data-go="self">自評模式<small id="self-sub">紙上寫字，自己對答案</small></button>
     <button class="btn" data-go="timed">限時挑戰<small>60 秒答越多越好</small></button>
     <button class="btn" data-go="box">字寶盒<small>看收集到的字</small></button>
-    <button class="btn" data-go="revmenu">複習 <span class="badge" id="rv-n">0</span><small id="rv-sub">今日複習、字卡、錯題本</small></button>
+    <button class="btn" data-go="wrong">錯題本 <span class="badge" id="w-n">0</span><small>答錯的題目再練一次</small></button>
   </div>
   <label class="toggle" for="s-selftime">
     <span class="t-txt"><b>自評模式計時</b><small id="s-selftime-d"></small></span>
     <button class="switch" id="s-selftime" role="switch" aria-checked="false"><span></span></button>
   </label>
+  <details class="set">
+    <summary>設定（老師和家長）</summary>
+    <div class="set-row">
+      <button class="ghost" id="s-sound"></button>
+      <button class="ghost" id="s-open"></button>
+      <button class="ghost" id="s-reset">清除所有紀錄</button>
+    </div>
+    <p class="note" id="s-note"></p>
+  </details>
   <p class="note" id="bank-note"></p>
-  <div class="corner">
-    <details>
-      <summary>⚙ 家長設定</summary>
-      <div class="panel">
-        <div class="set-row">
-          <button class="ghost" id="s-sound"></button>
-          <button class="ghost" id="s-open"></button>
-          <button class="ghost" id="s-reset">清除所有紀錄</button>
-        </div>
-        <p class="note" id="s-note" style="margin-top:4px"></p>
-      </div>
-    </details>
-  </div>
+  <p class="note" id="font-note">國字字型：教育部標準楷書（中華民國教育部，CC BY-ND 3.0 臺灣版授權）。</p>
 </section>
 
 <!-- 選關 -->
@@ -386,31 +377,9 @@ mark{background:var(--pencil);color:var(--pencil-ink);border-radius:4px;padding:
   <div class="detail" id="box-detail" hidden></div>
 </section>
 
-<!-- 複習選單 -->
-<section id="revmenu" hidden>
-  <div class="top"><button class="ghost" data-go="home">← 首頁</button><h2>複習</h2></div>
-  <div class="rvstat" id="rv-stat"></div>
-  <div class="menu" id="rv-body"></div>
-  <p class="note" id="rv-note"></p>
-</section>
-
-<!-- 字卡 -->
-<section id="cards" hidden>
-  <div class="top"><button class="ghost" data-go="revmenu">← 複習</button><h2>字卡</h2></div>
-  <div class="segs four" id="cd-seg"></div>
-  <div class="hud" style="margin-top:16px"><div class="pbar" id="cd-bar"><i></i></div><div class="count" id="cd-count"></div></div>
-  <button class="fcard" id="cd-card" aria-live="polite"></button>
-  <div class="cdnav">
-    <button class="btn" id="cd-prev">← 上一張</button>
-    <button class="btn bad" id="cd-hard" hidden>還不熟</button>
-    <button class="btn primary" id="cd-next">下一張 →</button>
-  </div>
-  <p class="note" id="cd-note"></p>
-</section>
-
 <!-- 錯題本 -->
 <section id="wrong" hidden>
-  <div class="top"><button class="ghost" data-go="revmenu">← 複習</button><h2>錯題本</h2></div>
+  <div class="top"><button class="ghost" data-go="home">← 首頁</button><h2>錯題本</h2></div>
   <div id="wrong-body"></div>
 </section>
 
@@ -454,37 +423,10 @@ function polyNote(it){
 
 /* ---------- 紀錄 ---------- */
 var KEY='zyzx-explorers-v1';
-function fresh(){return{v:1,stars:{},learned:{},done:{},wrong:{},best:{},tm:{},rv:{},mst:{},rvm:1,cardlv:0,selfkind:'m',selfpool:0,selftime:false,mute:false,open:false}}
+function fresh(){return{v:1,stars:{},learned:{},done:{},wrong:{},best:{},tm:{},selfkind:'m',selfpool:0,selftime:false,mute:false,open:false}}
 function load(){try{var j=JSON.parse(localStorage.getItem(KEY));if(j&&j.v===1)return j}catch(e){}return fresh()}
-var S=load();S.tm=S.tm||{};S.selfkind=S.selfkind||'m';if(S.selfpool==null)S.selfpool=0;S.selftime=!!S.selftime;S.rv=S.rv||{};S.mst=S.mst||{};if(S.cardlv==null)S.cardlv=0;
+var S=load();S.tm=S.tm||{};S.selfkind=S.selfkind||'m';if(S.selfpool==null)S.selfpool=0;S.selftime=!!S.selftime;
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
-
-/* ---------- 間隔複習 ----------
-   S.rv[題目] = {b:已連續記住幾次, d:下次複習的日期（天數）}
-   答錯：b=0，今天就能複習。答對：隔 1、3、7 天各再考一次，三次都記得就算學會（S.mst）。
-   還沒到複習日就答對，不算進度，避免同一天一直刷。 */
-var STEP=[1,3,7];
-function today(){var d=new Date();return Math.floor((d.getTime()-d.getTimezoneOffset()*60000)/864e5)}
-function rvUpdate(it,ok){
-  var k=kk(it),r=S.rv[k],t=today();
-  if(!ok){S.rv[k]={b:0,d:t};delete S.mst[k];return}
-  if(S.mst[k])return;
-  if(!r){S.rv[k]={b:1,d:t+STEP[0]};return}
-  if(t<r.d)return;
-  if(r.b>=3){delete S.rv[k];S.mst[k]=1;return}
-  S.rv[k]={b:r.b+1,d:t+STEP[r.b]};
-}
-if(!S.rvm){
-  var t0=today();
-  Object.keys(S.wrong).forEach(function(k){S.rv[k]={b:0,d:t0}});
-  Object.keys(S.done).forEach(function(k){if(!S.rv[k])S.rv[k]={b:1,d:t0+1}});
-  S.rvm=1;save();
-}
-function rvList(due){
-  var t=today();
-  return sh(Object.keys(S.rv)).map(function(k){var r=S.rv[k],it=BYK[k];
-    return it&&(due?r.d<=t:r.d>t)?{it:it,b:r.b,d:r.d,over:t-r.d}:null}).filter(Boolean);
-}
 
 /* ---------- 聲音 ---------- */
 var AC=null;
@@ -538,7 +480,7 @@ function hearts(n){
 var LOCK='<svg class="lock" viewBox="0 0 24 24" aria-label="尚未解鎖"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
 
 /* ---------- 畫面切換 ---------- */
-var SCREENS=['home','map','timedmenu','selfmenu','self','check','quiz','result','box','wrong','revmenu','cards'];
+var SCREENS=['home','map','timedmenu','selfmenu','self','check','quiz','result','box','wrong'];
 var tick=null,nextT=null,G=null,LAST=null;
 function stopAll(){clearInterval(tick);tick=null;clearTimeout(nextT);nextT=null}
 function go(id){
@@ -551,8 +493,6 @@ function go(id){
   if(id==='timedmenu')renderTimedMenu();
   if(id==='selfmenu')renderSelfMenu();
   if(id==='wrong')renderWrong();
-  if(id==='revmenu')renderRevMenu();
-  if(id==='cards')renderCards();
 }
 
 /* ---------- 首頁 ---------- */
@@ -561,15 +501,13 @@ function renderHome(){
   var n=learnedCount();
   $('#m-n').textContent=n;$('#m-all').textContent=CHARS.length;
   $('#m-bar').style.width=(100*n/CHARS.length).toFixed(1)+'%';
-  var due=rvList(true).length;
-  $('#rv-n').textContent=due;$('#rv-n').hidden=!due;
-  $('#rv-sub').textContent=due?'今天有 '+due+' 題要複習':'今日複習、字卡、錯題本';
+  $('#w-n').textContent=Object.keys(S.wrong).length;
   $('#s-sound').textContent='音效：'+(S.mute?'關':'開');
   $('#s-open').textContent='解鎖所有關卡：'+(S.open?'開':'關');
   $('#s-reset').textContent='清除所有紀錄';
   $('#s-note').textContent='紀錄只存在這台裝置的瀏覽器裡，換裝置或清除瀏覽資料就會消失。';
   var nv2=BANK.filter(function(i){return i.s==='v2'}).length;
-  $('#bank-note').textContent='題庫：字音字形中年級答案卷 '+BANK.filter(function(i){return !i.p}).length+' 題，多音字 '+BANK.filter(function(i){return i.p}).length+' 題'+(nv2?'（含多音字彙整表 v2 增補 '+nv2+' 題）':'')+'，共 '+CHARS.length+' 個字。';
+  $('#bank-note').textContent='題庫：一般題 '+BANK.filter(function(i){return !i.p}).length+' 題，多音字 '+BANK.filter(function(i){return i.p}).length+' 題'+(nv2?'（含多音字彙整表 v2 增補 '+nv2+' 題）':'')+'，共 '+CHARS.length+' 個字。';
   renderSelfTime();
 }
 function renderSelfTime(){
@@ -711,14 +649,14 @@ function pick(o,btn){
   var fb=$('#q-fb');
   if(ok){
     if(!S.learned[it.t])G.fresh.push(it.t);
-    S.learned[it.t]=(S.learned[it.t]||0)+1;S.done[k]=1;delete S.wrong[k];rvUpdate(it,true);
+    S.learned[it.t]=(S.learned[it.t]||0)+1;S.done[k]=1;delete S.wrong[k];
     G.right++;G.combo++;sfx('ok');
     fb.className='fb ok';
     fb.innerHTML='<div class="msg">'+(G.combo>=3?'連對 '+G.combo+' 題！':PRAISE[Math.floor(Math.random()*PRAISE.length)])+polyNote(it)+'</div>';
     save();
     nextT=setTimeout(next,G.mode==='timed'?350:(it.p?2400:950));
   }else{
-    S.wrong[k]=(S.wrong[k]||0)+1;rvUpdate(it,false);G.miss.push(it);G.combo=0;sfx('no');
+    S.wrong[k]=(S.wrong[k]||0)+1;G.miss.push(it);G.combo=0;sfx('no');
     if(G.mode==='stage'){G.hearts--;$('#q-hearts').innerHTML=hearts(G.hearts)}
     save();
     fb.className='fb no';
@@ -734,7 +672,7 @@ function next(){
   if(G.mode==='stage'&&G.hearts<=0)return finishStage(false);
   G.i++;
   if(G.mode==='timed'){if(G.i>=G.qs.length)more();return showQ()}
-  if(G.i>=G.n)return G.mode==='stage'?finishStage(true):(G.mode==='daily'?finishDaily():finishReview());
+  if(G.i>=G.n)return G.mode==='stage'?finishStage(true):finishReview();
   showQ();
 }
 
@@ -796,7 +734,6 @@ $('#r-body').addEventListener('click',function(e){
   else if(a==='again'){
     if(LAST.mode==='stage')startStage(LAST.lv,LAST.st);
     else if(LAST.mode==='review')startReview();
-    else if(LAST.mode==='daily')startDaily(LAST.early);
     else if(LAST.mode==='self')startSelf(LAST.pool);
     else startTimed(LAST.sel);
   }else go(a==='map'?'map':a);
@@ -830,130 +767,6 @@ $('#box-body').addEventListener('click',function(e){
   d.innerHTML='<span class="cell">'+c+'</span><div class="info"><p>'+info.zs.map(zy).join('　')+'　<span style="color:var(--muted)">'+(S.learned[c]?'已收集':'還沒收集')+'</span></p><p class="ws">'+
     info.items.map(mark).join('、')+'</p></div>';
 });
-
-/* ---------- 複習 ---------- */
-function renderRevMenu(){
-  var due=rvList(true).length,up=rvList(false).length,mst=Object.keys(S.mst).length,ing=Object.keys(S.rv).length,wr=Object.keys(S.wrong).length;
-  $('#rv-stat').innerHTML='<div><b>'+due+'</b><span>今天要複習</span></div><div><b>'+ing+'</b><span>複習中</span></div><div><b>'+mst+'</b><span>已學會</span></div>';
-  var b='';
-  if(due)b+='<button class="btn primary wide" data-rv="daily">今日複習<small>'+due+' 題到期，每次最多 10 題</small></button>';
-  else if(up)b+='<button class="btn primary wide" data-rv="early">今天的複習都做完了<small>想再多練？提前複習 10 題</small></button>';
-  else b+='<button class="btn wide" disabled>今日複習<small>先去闖關或自評，答過的題才會出現在這裡</small></button>';
-  b+='<button class="btn pencil" data-rv="cards">字卡<small>先看再記，不計分</small></button>';
-  b+='<button class="btn" data-rv="wrong">錯題本 <span class="badge">'+wr+'</span><small>答錯還沒改正的題</small></button>';
-  $('#rv-body').innerHTML=b;
-  $('#rv-note').textContent='答錯的題今天就能複習。答對後會隔 1 天、3 天、7 天再出現，三次都還記得，就算學會。';
-}
-$('#rv-body').addEventListener('click',function(e){
-  var b=e.target.closest('[data-rv]');if(!b)return;
-  var v=b.dataset.rv;
-  if(v==='daily')startDaily(false);else if(v==='early')startDaily(true);else go(v);
-});
-function startDaily(early){
-  var list=rvList(!early);
-  if(!list.length)return go('revmenu');
-  if(early)list.sort(function(a,c){return a.d-c.d});
-  else list.sort(function(a,c){return (c.b===0)-(a.b===0)||c.over-a.over});
-  var picks=list.slice(0,10).map(function(x){return x.it}),out=[],used={};
-  picks.forEach(function(it){used[kk(it)]=1});
-  picks=sh(picks);
-  var extra=0;
-  picks.forEach(function(it){
-    out.push(it);
-    if(it.p&&extra<4){
-      var sib=sh((POLYBY[it.t]||[]).filter(function(o){return o.z!==it.z&&!used[kk(o)]}))[0];
-      if(sib){used[kk(sib)]=1;out.push(sib);extra++}
-    }
-  });
-  var qs=out.map(function(it){return mkQ(it,rtype(it))});
-  G={mode:'daily',early:!!early,qs:qs,n:qs.length,i:0,hearts:3,right:0,combo:0,miss:[],locked:false,fresh:[],mst0:Object.keys(S.mst).length};
-  LAST={mode:'daily',early:!!early};
-  $('#q-title').textContent=early?'提前複習':'今日複習';
-  $('#q-back').onclick=function(){go('revmenu')};
-  go('quiz');showQ();
-}
-function finishDaily(){
-  sfx('win');
-  var newM=Object.keys(S.mst).length-G.mst0,due=rvList(true).length,tom=rvList(false).filter(function(x){return x.d<=today()+1}).length;
-  showResult(G.early?'提前複習':'今日複習',
-    '<h2>複習完成</h2><div class="big">'+G.right+' <span style="font-size:1.4rem;font-weight:500">/ '+G.n+' 題答對</span></div>'+
-    '<p class="sum">'+(newM>0?'有 '+newM+' 題學會了，不用再複習！':'答對的題目，過幾天會再出現一次。')+'</p>'+
-    '<p class="sum">'+(due?'今天還有 '+due+' 題要複習。':'今天的複習都做完了。')+(tom?'明天會有 '+tom+' 題要複習。':'')+'</p>'+
-    freshHtml()+missList(),
-    (due?[{k:'again',c:'primary',t:'再練一輪'}]:[]).concat([{k:'revmenu',c:due?'':'primary',t:'回複習'},{k:'home',t:'回首頁'}]));
-}
-
-/* ---------- 字卡 ---------- */
-var C={deck:[],i:0,flip:false};
-function buildDeck(lv){
-  var pool=POOL[lv],units=[];
-  if(lv===3){
-    var seen={};
-    pool.forEach(function(it){if(!seen[it.t]){seen[it.t]=1;units.push({poly:1,t:it.t,items:POOL[3].filter(function(o){return o.t===it.t})})}});
-  }else units=pool.map(function(it){return{it:it,items:[it]}});
-  return sh(units);
-}
-function renderCards(){
-  var lv=S.cardlv;
-  if(!C.deck.length||C.lv!==lv){C.lv=lv;C.deck=buildDeck(lv);C.i=0}
-  C.flip=false;
-  $('#cd-seg').innerHTML=LV.map(function(L){
-    var on=L.id===lv,n=L.id===3?new Set(POOL[3].map(function(i){return i.t})).size:POOL[L.id].length;
-    return '<button class="seg'+(on?' on':'')+'" data-clv="'+L.id+'" aria-pressed="'+on+'">'+L.name+'<small>'+n+(L.id===3?' 個字':' 題')+'</small></button>';
-  }).join('');
-  showCard();
-}
-$('#cd-seg').addEventListener('click',function(e){
-  var b=e.target.closest('[data-clv]');if(!b)return;
-  S.cardlv=+b.dataset.clv;save();C.deck=[];renderCards();
-});
-function wordCells(it,back){
-  var h=hitIdx(it);
-  return Array.from(it.w).map(function(ch,i){
-    var hit=h.indexOf(i)>=0;
-    return '<div class="cw"><span class="cell'+(hit?' hit':'')+'">'+ch+'</span><span class="under">'+(hit&&back?zy(it.z):'')+'</span></div>';
-  }).join('');
-}
-function showCard(){
-  var u=C.deck[C.i],n=C.deck.length;
-  $('#cd-bar i').style.width=(100*(C.i+1)/n)+'%';
-  $('#cd-count').textContent=(C.i+1)+' / '+n;
-  $('#cd-prev').disabled=C.i===0;$('#cd-next').disabled=C.i>=n-1;
-  $('#cd-hard').hidden=!C.flip;
-  var c=$('#cd-card');c.classList.toggle('back',C.flip);
-  c.setAttribute('aria-label',C.flip?'字卡背面，點一下翻回正面':'字卡正面，點一下看答案');
-  if(u.poly){
-    if(!C.flip){
-      c.innerHTML='<span class="chip-t">多音字</span><p class="prompt">這個字有 '+new Set(u.items.map(function(i){return i.z})).size+' 種念法，你都知道嗎？</p>'+
-        '<div class="word"><div class="cw"><span class="cell hit" style="--cs:clamp(110px,28vw,170px)">'+u.t+'</span></div></div><p class="tip">點一下看答案</p>';
-    }else{
-      var by={},ord=[];
-      u.items.forEach(function(it){if(!by[it.z]){by[it.z]=[];ord.push(it.z)}by[it.z].push(it)});
-      c.innerHTML='<span class="chip-t">多音字</span><ul class="rd">'+ord.map(function(z){
-        return '<li><span class="zz">'+zy(z)+'</span><span class="ww">'+by[z].map(mark).join('、')+'</span></li>';
-      }).join('')+'</ul><p class="tip">點一下翻回正面</p>';
-    }
-  }else{
-    var it=u.it;
-    if(!C.flip){
-      c.innerHTML='<span class="chip-t">字音</span><p class="prompt">黃色格子裡的字，注音怎麼念？</p><div class="word">'+wordCells(it,false)+'</div><p class="tip">點一下看答案</p>';
-    }else{
-      c.innerHTML='<span class="chip-t">答案</span><div class="word">'+wordCells(it,true)+'</div>'+
-        '<div class="big-zy">'+zy(it.z)+'</div>'+
-        (it.mr?'<p class="tip">很多人會念成 '+zy(it.mr)+'，那是錯的。</p>':'')+'<p class="tip">點一下翻回正面</p>';
-    }
-  }
-  $('#cd-note').textContent=C.flip?'記住了就按「下一張」。還沒把握，按「還不熟」，這題會放進今日複習。':'';
-}
-$('#cd-card').onclick=function(){C.flip=!C.flip;showCard()};
-$('#cd-next').onclick=function(){if(C.i<C.deck.length-1){C.i++;C.flip=false;showCard();window.scrollTo(0,0)}};
-$('#cd-prev').onclick=function(){if(C.i>0){C.i--;C.flip=false;showCard();window.scrollTo(0,0)}};
-$('#cd-hard').onclick=function(){
-  var u=C.deck[C.i];
-  u.items.forEach(function(it){rvUpdate(it,false)});save();
-  if(C.i<C.deck.length-1){C.i++;C.flip=false;showCard();window.scrollTo(0,0)}
-  else{$('#cd-note').textContent='已放進今日複習。這副字卡看完了。'}
-};
 
 /* ---------- 錯題本 ---------- */
 function renderWrong(){
@@ -1082,7 +895,6 @@ $('#ck-done').onclick=function(){
     SELF.res.push({it:it,type:q.type,secs:null,ok:ok});
     if(ok){S.learned[it.t]=(S.learned[it.t]||0)+1;S.done[k]=1;delete S.wrong[k]}
     else S.wrong[k]=(S.wrong[k]||0)+1;
-    rvUpdate(it,ok);
   });
   save();finishSelf();
 };
@@ -1127,7 +939,6 @@ function selfGrade(ok){
   var t=S.tm[SELF.pool]||(S.tm[SELF.pool]={sum:0,n:0});t.sum+=SELF.secs;t.n++;
   if(ok){S.learned[it.t]=(S.learned[it.t]||0)+1;S.done[k]=1;delete S.wrong[k];sfx('ok')}
   else{S.wrong[k]=(S.wrong[k]||0)+1;sfx('no')}
-  rvUpdate(it,ok);
   save();
   SELF.i++;
   if(SELF.i>=SELF.qs.length)finishSelf();else selfShow();
@@ -1179,4 +990,48 @@ renderHome();
 })();
 </script>
 
+
+<script>
+/* 教育部標準楷書：用 fetch 下載以顯示進度，下載完成後才關閉載入畫面 */
+(function(){
+  var FONT_URL='font/edukai.ttf';
+  var box=document.getElementById('fontload'),msg=document.getElementById('fl-msg'),sub=document.getElementById('fl-sub'),
+      bar=document.getElementById('fl-bar'),skip=document.getElementById('fl-skip'),done=false;
+  function close(){if(done)return;done=true;box.hidden=true}
+  function fail(t){
+    if(done)return;
+    msg.textContent='字型沒有載入成功';sub.textContent=t+'，先用備用字型顯示。';
+    bar.hidden=true;skip.textContent='開始';skip.style.visibility='visible';
+  }
+  skip.onclick=close;
+  setTimeout(function(){if(!done)skip.style.visibility='visible'},6000);
+  if(!window.fetch||!window.FontFace){fail('這個瀏覽器不支援');return}
+  fetch(FONT_URL).then(function(res){
+    if(!res.ok)throw new Error('找不到字型檔 '+FONT_URL);
+    var total=+res.headers.get('content-length')||0,enc=res.headers.get('content-encoding');
+    if(enc)total=0; /* 有壓縮時 content-length 不是實際大小 */
+    if(!res.body||!res.body.getReader)return res.arrayBuffer();
+    var reader=res.body.getReader(),chunks=[],got=0;
+    if(total)bar.classList.remove('indet');
+    return (function pump(){
+      return reader.read().then(function(r){
+        if(r.done){
+          var buf=new Uint8Array(got),o=0;
+          chunks.forEach(function(c){buf.set(c,o);o+=c.length});
+          return buf.buffer;
+        }
+        chunks.push(r.value);got+=r.value.length;
+        var mb=(got/1048576).toFixed(1);
+        if(total){bar.firstChild.style.width=Math.min(100,100*got/total)+'%';sub.textContent=mb+' / '+(total/1048576).toFixed(1)+' MB'}
+        else sub.textContent='已下載 '+mb+' MB';
+        return pump();
+      });
+    })();
+  }).then(function(buf){
+    msg.textContent='準備字型…';
+    var ff=new FontFace('EduKai',buf,{weight:'100 900',style:'normal'});
+    return ff.load().then(function(f){document.fonts.add(f);close()});
+  }).catch(function(e){fail(e&&e.message&&e.message.indexOf('找不到')===0?e.message:'網路或字型檔有問題')});
+})();
+</script>
 </body></html>
