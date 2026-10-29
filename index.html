@@ -992,46 +992,54 @@ renderHome();
 
 
 <script>
-/* 教育部標準楷書：用 fetch 下載以顯示進度，下載完成後才關閉載入畫面 */
+/* 教育部標準楷書：依序嘗試下列路徑，用 fetch 下載以顯示進度 */
 (function(){
-  var FONT_URL='font/edukai.ttf';
+  var CANDIDATES=['font/edukai.woff2','font/edukai.ttf'];
   var box=document.getElementById('fontload'),msg=document.getElementById('fl-msg'),sub=document.getElementById('fl-sub'),
-      bar=document.getElementById('fl-bar'),skip=document.getElementById('fl-skip'),done=false;
+      bar=document.getElementById('fl-bar'),skip=document.getElementById('fl-skip'),done=false,notes=[];
   function close(){if(done)return;done=true;box.hidden=true}
   function fail(t){
     if(done)return;
-    msg.textContent='字型沒有載入成功';sub.textContent=t+'，先用備用字型顯示。';
-    bar.hidden=true;skip.textContent='開始';skip.style.visibility='visible';
+    msg.textContent='字型沒有載入成功';
+    sub.innerHTML='';sub.textContent=t;
+    if(notes.length){var ul=document.createElement('small');ul.style.textAlign='left';ul.textContent=notes.join('\n');ul.style.whiteSpace='pre-wrap';sub.appendChild(ul)}
+    bar.hidden=true;skip.textContent='先用備用字型開始';skip.style.visibility='visible';
   }
   skip.onclick=close;
   setTimeout(function(){if(!done)skip.style.visibility='visible'},6000);
-  if(!window.fetch||!window.FontFace){fail('這個瀏覽器不支援');return}
-  fetch(FONT_URL).then(function(res){
-    if(!res.ok)throw new Error('找不到字型檔 '+FONT_URL);
-    var total=+res.headers.get('content-length')||0,enc=res.headers.get('content-encoding');
-    if(enc)total=0; /* 有壓縮時 content-length 不是實際大小 */
-    if(!res.body||!res.body.getReader)return res.arrayBuffer();
-    var reader=res.body.getReader(),chunks=[],got=0;
-    if(total)bar.classList.remove('indet');
-    return (function pump(){
-      return reader.read().then(function(r){
-        if(r.done){
-          var buf=new Uint8Array(got),o=0;
-          chunks.forEach(function(c){buf.set(c,o);o+=c.length});
-          return buf.buffer;
-        }
-        chunks.push(r.value);got+=r.value.length;
-        var mb=(got/1048576).toFixed(1);
-        if(total){bar.firstChild.style.width=Math.min(100,100*got/total)+'%';sub.textContent=mb+' / '+(total/1048576).toFixed(1)+' MB'}
-        else sub.textContent='已下載 '+mb+' MB';
-        return pump();
-      });
-    })();
-  }).then(function(buf){
-    msg.textContent='準備字型…';
-    var ff=new FontFace('EduKai',buf,{weight:'100 900',style:'normal'});
-    return ff.load().then(function(f){document.fonts.add(f);close()});
-  }).catch(function(e){fail(e&&e.message&&e.message.indexOf('找不到')===0?e.message:'網路或字型檔有問題')});
+  if(location.protocol==='file:'){fail('目前是直接打開檔案，瀏覽器不允許讀取字型檔。請用網址開啟（例如 Cloudflare 的網址）。');return}
+  if(!window.fetch||!window.FontFace){fail('這個瀏覽器不支援下載字型。');return}
+  function download(url){
+    return fetch(url,{cache:'default'}).then(function(res){
+      var ct=(res.headers.get('content-type')||'').toLowerCase();
+      if(!res.ok)throw new Error(url+'：HTTP '+res.status);
+      if(ct.indexOf('text/html')>=0)throw new Error(url+'：伺服器回傳的是網頁不是字型（路徑或檔名可能不對）');
+      var total=+res.headers.get('content-length')||0;
+      if(res.headers.get('content-encoding'))total=0;
+      if(!res.body||!res.body.getReader)return res.arrayBuffer();
+      var reader=res.body.getReader(),chunks=[],got=0;
+      bar.classList.toggle('indet',!total);
+      return (function pump(){
+        return reader.read().then(function(r){
+          if(r.done){var buf=new Uint8Array(got),o=0;chunks.forEach(function(c){buf.set(c,o);o+=c.length});return buf.buffer}
+          chunks.push(r.value);got+=r.value.length;
+          var mb=(got/1048576).toFixed(1);
+          if(total){bar.firstChild.style.width=Math.min(100,100*got/total)+'%';sub.textContent=mb+' / '+(total/1048576).toFixed(1)+' MB'}
+          else sub.textContent='已下載 '+mb+' MB';
+          return pump();
+        });
+      })();
+    }).then(function(buf){
+      msg.textContent='準備字型…';
+      var ff=new FontFace('EduKai',buf,{weight:'100 900',style:'normal'});
+      return ff.load().catch(function(){throw new Error(url+'：檔案不是可用的字型')});
+    });
+  }
+  (function next(i){
+    if(i>=CANDIDATES.length){fail('找不到可用的字型檔。請確認 GitHub 專案裡有 font 資料夾（小寫），裡面放 edukai.woff2 或 edukai.ttf：');return}
+    download(CANDIDATES[i]).then(function(f){document.fonts.add(f);close()})
+      .catch(function(e){notes.push('・'+(e&&e.message||e));msg.textContent='字型載入中…';next(i+1)});
+  })(0);
 })();
 </script>
 </body></html>
