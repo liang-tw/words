@@ -469,11 +469,23 @@ BANK.forEach(function(it){
 });
 var CHARS=Object.keys(CH);
 var POLYBY={};BANK.forEach(function(it){if(it.p)(POLYBY[it.t]=POLYBY[it.t]||[]).push(it)});
+var READ=window.ZYZX_READINGS||{},EXBY={};
+BANK.forEach(function(it){var k=it.t+'|'+it.z;if(!EXBY[k]||(it.p&&!EXBY[k].p))EXBY[k]=it});
 function polyNote(it){
   if(!it.p)return '';
-  var seen={},out=[];
-  (POLYBY[it.t]||[]).forEach(function(o){if(o.z!==it.z&&!seen[o.z]){seen[o.z]=1;out.push('「'+o.w+'」念 '+zy(o.z))}});
-  return out.length?'<br><span style="font-weight:500;font-size:1.05rem">「'+it.t+'」還有別的念法：'+out.slice(0,2).join('、')+'</span>':'';
+  var S='<br><span style="font-weight:500;font-size:1.05rem">',list=READ[it.t],out=[],seen={};
+  if(list&&list.length===1)return S+'「'+it.t+'」在《國語辭典簡編本》只有一個念法：'+zy(list[0])+'</span>';
+  if(list){
+    list.forEach(function(e){
+      var z=typeof e==='string'?e:e[0],note=typeof e==='string'?'':e[1];
+      if(z===it.z||seen[z])return;seen[z]=1;
+      var ex=EXBY[it.t+'|'+z];
+      out.push(ex?'「'+ex.w+'」念 '+zy(z):zy(z)+(note?'（'+note+'）':''));
+    });
+  }else{
+    (POLYBY[it.t]||[]).forEach(function(o){if(o.z!==it.z&&!seen[o.z]){seen[o.z]=1;out.push('「'+o.w+'」念 '+zy(o.z))}});
+  }
+  return out.length?S+'「'+it.t+'」還有別的念法：'+out.join('、')+'</span>':'';
 }
 
 /* ---------- 紀錄 ---------- */
