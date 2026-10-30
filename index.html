@@ -1,12 +1,13 @@
 <!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
 <title>字音字形探險隊</title>
+<script>try{var _p=(JSON.parse(localStorage.getItem('zyzx-explorers-v1'))||{}).palette;if(_p==="d"||_p==="h")document.documentElement.setAttribute("data-palette",_p)}catch(e){}</script>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
 <style>
 /* 版面概念：國小作業簿。田字格是主視覺，白天是作業簿紙，夜間是黑板與粉筆。單欄、大按鈕，適合平板單手點選。 */
-/* 色系：莫蘭迪色（低彩度、帶灰的暖色調），護眼不刺眼。底色是暖米灰紙、主色灰藍綠、重點灰玫瑰；夜間是灰炭色。 */
+/* 色系：預設莫蘭迪色（低彩度、帶灰的暖色調），護眼不刺眼。家長設定可改成大耳狗或 Hello Kitty 色系（見下方 data-palette）。 */
 :root{
   --bg:#ece8e1; --surface:#f7f5f0; --ink:#3d474c; --muted:#5a6467;
   --line:#a3b3ae; --grid:#dde2db;
@@ -37,6 +38,69 @@
   --seal:#d5a6a1; --on-seal:#2d201f; --edge:#495052; --cloud:rgba(255,255,255,.04);
   color-scheme:dark;
 }
+/* 色系切換：data-palette="d" 大耳狗、"h" Hello Kitty；沒有設定時是莫蘭迪（上面的預設值） */
+:root[data-palette="d"]{
+  --bg:#e6f4fd; --surface:#ffffff; --ink:#274a6b; --muted:#557590;
+  --line:#8fcdf0; --grid:#cfeafa;
+  --accent:#1b78bb; --on-accent:#ffffff;
+  --pencil:#ffc9da; --pencil-ink:#6a1f41;
+  --good:#14866b; --good-bg:#d8f5ea; --bad:#cf3d5a; --bad-bg:#ffe3e9;
+  --seal:#d63a73; --on-seal:#ffffff; --edge:#bfe0f4; --cloud:rgba(255,255,255,.9);
+}
+@media (prefers-color-scheme: dark){
+  :root[data-palette="d"]:not([data-theme="light"]){
+    --bg:#15294a; --surface:#1e3a64; --ink:#eef7ff; --muted:#b0c9e2;
+    --line:#5b92c4; --grid:#33598a;
+    --accent:#8fd0ff; --on-accent:#0b2038;
+    --pencil:#ffb9d0; --pencil-ink:#4a1730;
+    --good:#7fe3c4; --good-bg:#1b4d49; --bad:#ffa0b0; --bad-bg:#5a2a40;
+    --seal:#ff93b9; --on-seal:#3b0f22; --edge:#33598a; --cloud:rgba(255,255,255,.07);
+    color-scheme:dark;
+  }
+}
+:root[data-palette="d"][data-theme="dark"]{
+  --bg:#15294a; --surface:#1e3a64; --ink:#eef7ff; --muted:#b0c9e2;
+  --line:#5b92c4; --grid:#33598a;
+  --accent:#8fd0ff; --on-accent:#0b2038;
+  --pencil:#ffb9d0; --pencil-ink:#4a1730;
+  --good:#7fe3c4; --good-bg:#1b4d49; --bad:#ffa0b0; --bad-bg:#5a2a40;
+  --seal:#ff93b9; --on-seal:#3b0f22; --edge:#33598a; --cloud:rgba(255,255,255,.07);
+  color-scheme:dark;
+}
+:root[data-palette="h"]{
+  --bg:#fff5f7; --surface:#ffffff; --ink:#3a2a30; --muted:#7a5562;
+  --line:#f5a3b8; --grid:#ffe0e8;
+  --accent:#c81e4a; --on-accent:#ffffff;
+  --pencil:#ffc2d1; --pencil-ink:#7a1236;
+  --good:#2a7349; --good-bg:#dcf3e3; --bad:#c02443; --bad-bg:#ffe0e6;
+  --seal:#d4123f; --on-seal:#ffffff; --edge:#ffd0dc; --cloud:rgba(255,255,255,.9);
+}
+@media (prefers-color-scheme: dark){
+  :root[data-palette="h"]:not([data-theme="light"]){
+    --bg:#2a1820; --surface:#3a2330; --ink:#fff0f4; --muted:#e0b6c4;
+    --line:#b0566f; --grid:#5a3344;
+    --accent:#ff8aa6; --on-accent:#2a0d17;
+    --pencil:#ffb3c7; --pencil-ink:#4a1027;
+    --good:#8fe0b0; --good-bg:#1f4a35; --bad:#ff9fb1; --bad-bg:#5c2233;
+    --seal:#ff7396; --on-seal:#2a0d17; --edge:#5a3344; --cloud:rgba(255,255,255,.06);
+    color-scheme:dark;
+  }
+}
+:root[data-palette="h"][data-theme="dark"]{
+  --bg:#2a1820; --surface:#3a2330; --ink:#fff0f4; --muted:#e0b6c4;
+  --line:#b0566f; --grid:#5a3344;
+  --accent:#ff8aa6; --on-accent:#2a0d17;
+  --pencil:#ffb3c7; --pencil-ink:#4a1027;
+  --good:#8fe0b0; --good-bg:#1f4a35; --bad:#ff9fb1; --bad-bg:#5c2233;
+  --seal:#ff7396; --on-seal:#2a0d17; --edge:#5a3344; --cloud:rgba(255,255,255,.06);
+  color-scheme:dark;
+}
+.pal{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:4px 0 8px}
+.pal button{min-height:56px;border-radius:12px;border:2px solid var(--edge);background:var(--surface);color:var(--ink);font-weight:700;font-size:.85rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:6px 4px}
+.pal button[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 3px 0 var(--ink)}
+.pal .sw3{display:flex;gap:3px}
+.pal .sw3 i{width:14px;height:14px;border-radius:50%;border:1px solid rgba(0,0,0,.15)}
+.pal-t{margin:6px 0 0;font-size:.85rem;font-weight:700;color:var(--muted)}
 *{box-sizing:border-box}
 body{background-color:var(--bg);background-image:
   radial-gradient(circle at 12% 40px,var(--cloud) 0 34px,transparent 35px),
@@ -329,6 +393,12 @@ mark{background:var(--pencil);color:var(--pencil-ink);border-radius:4px;padding:
     <details>
       <summary>⚙ 家長設定</summary>
       <div class="panel">
+        <p class="pal-t">色系</p>
+        <div class="pal" id="s-pal">
+          <button data-pal="m" aria-pressed="false"><span class="sw3"><i style="background:#ece8e1"></i><i style="background:#4f6f72"></i><i style="background:#ead7d1"></i></span>M 莫蘭迪</button>
+          <button data-pal="d" aria-pressed="false"><span class="sw3"><i style="background:#e6f4fd"></i><i style="background:#1b78bb"></i><i style="background:#ffc9da"></i></span>D 大耳狗</button>
+          <button data-pal="h" aria-pressed="false"><span class="sw3"><i style="background:#ffffff"></i><i style="background:#d4123f"></i><i style="background:#ffc2d1"></i></span>H Hello Kitty</button>
+        </div>
         <div class="set-row">
           <button class="ghost" id="s-sound"></button>
           <button class="ghost" id="s-open"></button>
@@ -450,7 +520,7 @@ mark{background:var(--pencil);color:var(--pencil-ink);border-radius:4px;padding:
 <script>
 (function(){
 'use strict';
-var APP_VERSION='2.3.0',APP_DATE='2026-10-30',BANK_NEED='3.2.0';
+var APP_VERSION='2.4.0',APP_DATE='2026-10-30',BANK_NEED='3.2.0';
 var BANK=window.ZYZX_BANK;
 if(!Array.isArray(BANK)||!BANK.length){
   document.querySelector('main').innerHTML='<section><div class="empty"><div class="cell">庫</div><p><b>找不到題庫檔 bank.js</b></p><p>請把 bank.js 和這個網頁檔放在同一個資料夾，再重新打開網頁。</p></div></section>';
@@ -622,6 +692,7 @@ function renderHome(){
   $('#rv-n').textContent=due;$('#rv-n').hidden=!due;
   $('#rv-sub').textContent=due?'今天有 '+due+' 題要複習':'今日複習、字卡、錯題本';
   $('#s-sound').textContent='音效：'+(S.mute?'關':'開');
+  renderPalette();
   $('#s-open').textContent='解鎖所有關卡：'+(S.open?'開':'關');
   $('#s-reset').textContent='清除所有紀錄';
   $('#s-note').textContent='紀錄只存在這台裝置的瀏覽器裡，換裝置或清除瀏覽資料就會消失。';
@@ -639,12 +710,25 @@ function renderSelfTime(){
   $('#self-sub').textContent=on?'紙上寫字，計算每字時間':'紙上寫字，自己對答案';
 }
 $('#s-selftime').onclick=function(e){e.preventDefault();S.selftime=!S.selftime;save();renderSelfTime()};
+function applyPalette(){
+  var p=S.palette==='d'||S.palette==='h'?S.palette:'m';
+  if(p==='m')document.documentElement.removeAttribute('data-palette');else document.documentElement.setAttribute('data-palette',p);
+  return p;
+}
+function renderPalette(){
+  var p=applyPalette();
+  $$('#s-pal [data-pal]').forEach(function(b){b.setAttribute('aria-pressed',String(b.dataset.pal===p))});
+}
+$('#s-pal').addEventListener('click',function(e){
+  var b=e.target.closest('[data-pal]');if(!b)return;
+  S.palette=b.dataset.pal;save();renderPalette();
+});
 var resetArmed=false;
 $('#s-sound').onclick=function(){S.mute=!S.mute;save();renderHome();if(!S.mute)sfx('ok')};
 $('#s-open').onclick=function(){S.open=!S.open;save();renderHome()};
 $('#s-reset').onclick=function(){
   if(!resetArmed){resetArmed=true;this.textContent='再按一次，確定清除';setTimeout(function(){resetArmed=false;$('#s-reset').textContent='清除所有紀錄'},4000);return}
-  S=fresh();save();resetArmed=false;renderHome();
+  var keepPal=S.palette;S=fresh();S.palette=keepPal;save();resetArmed=false;renderHome();
 };
 
 /* ---------- 選關 ---------- */
