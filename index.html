@@ -296,6 +296,7 @@ mark{background:var(--pencil);color:var(--pencil-ink);border-radius:4px;padding:
     <button class="switch" id="s-selftime" role="switch" aria-checked="false"><span></span></button>
   </label>
   <p class="note" id="bank-note"></p>
+  <p class="note" id="ver-note" style="margin-top:4px"></p>
   <div class="corner">
     <details>
       <summary>⚙ 家長設定</summary>
@@ -416,10 +417,12 @@ mark{background:var(--pencil);color:var(--pencil-ink);border-radius:4px;padding:
 
 </main>
 
-<script src="bank.js"></script>
+<!-- 更新 bank.js 時，請把下面 ?v= 的版號也改成新的題庫版號，平板才不會讀到舊檔 -->
+<script src="bank.js?v=3.2.0"></script>
 <script>
 (function(){
 'use strict';
+var APP_VERSION='2.1.0',APP_DATE='2026-10-30',BANK_NEED='3.2.0';
 var BANK=window.ZYZX_BANK;
 if(!Array.isArray(BANK)||!BANK.length){
   document.querySelector('main').innerHTML='<section><div class="empty"><div class="cell">庫</div><p><b>找不到題庫檔 bank.js</b></p><p>請把 bank.js 和這個網頁檔放在同一個資料夾，再重新打開網頁。</p></div></section>';
@@ -570,6 +573,8 @@ function renderHome(){
   $('#s-note').textContent='紀錄只存在這台裝置的瀏覽器裡，換裝置或清除瀏覽資料就會消失。';
   var nv2=BANK.filter(function(i){return i.s==='v2'}).length;
   $('#bank-note').textContent='題庫：字音字形中年級答案卷 '+BANK.filter(function(i){return !i.p}).length+' 題，多音字 '+BANK.filter(function(i){return i.p}).length+' 題'+(nv2?'（含多音字彙整表 v2 增補 '+nv2+' 題）':'')+'，共 '+CHARS.length+' 個字。';
+  var bv=window.ZYZX_BANK_VERSION||'未知';
+  $('#ver-note').innerHTML='程式 v'+APP_VERSION+'（'+APP_DATE+'）　題庫 v'+bv+(bv!==BANK_NEED?'　<b style="color:var(--bad)">題庫版本和程式要的（v'+BANK_NEED+'）不同，請重新整理，或清除瀏覽器快取。</b>':'');
   renderSelfTime();
 }
 function renderSelfTime(){
