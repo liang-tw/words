@@ -6,35 +6,35 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
 <style>
 /* 版面概念：國小作業簿。田字格是主視覺，白天是作業簿紙，夜間是黑板與粉筆。單欄、大按鈕，適合平板單手點選。 */
-/* 色系：大耳狗的天空藍、白色和粉紅。夜間改成深藍夜空。 */
+/* 色系：莫蘭迪色（低彩度、帶灰的暖色調），護眼不刺眼。底色是暖米灰紙、主色灰藍綠、重點灰玫瑰；夜間是灰炭色。 */
 :root{
-  --bg:#e6f4fd; --surface:#ffffff; --ink:#274a6b; --muted:#557590;
-  --line:#8fcdf0; --grid:#cfeafa;
-  --accent:#1b78bb; --on-accent:#ffffff;
-  --pencil:#ffc9da; --pencil-ink:#6a1f41;
-  --good:#14866b; --good-bg:#d8f5ea; --bad:#cf3d5a; --bad-bg:#ffe3e9;
-  --seal:#d63a73; --on-seal:#ffffff; --edge:#bfe0f4; --cloud:rgba(255,255,255,.9);
+  --bg:#ece8e1; --surface:#f7f5f0; --ink:#3d474c; --muted:#5a6467;
+  --line:#a3b3ae; --grid:#dde2db;
+  --accent:#4f6f72; --on-accent:#fbfaf7;
+  --pencil:#ead7d1; --pencil-ink:#6b4646;
+  --good:#4a6a4f; --good-bg:#dde6d8; --bad:#904f4a; --bad-bg:#f1e0dc;
+  --seal:#94605f; --on-seal:#fbfaf7; --edge:#d6d1c6; --cloud:rgba(255,255,255,.5);
   --f-body:'Noto Sans TC','PingFang TC','Microsoft JhengHei',system-ui,sans-serif;
   --f-kai:'EduKai','BiauKai','DFKai-SB','Kaiti TC','標楷體',serif;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#15294a; --surface:#1e3a64; --ink:#eef7ff; --muted:#b0c9e2;
-    --line:#5b92c4; --grid:#33598a;
-    --accent:#8fd0ff; --on-accent:#0b2038;
-    --pencil:#ffb9d0; --pencil-ink:#4a1730;
-    --good:#7fe3c4; --good-bg:#1b4d49; --bad:#ffa0b0; --bad-bg:#5a2a40;
-    --seal:#ff93b9; --on-seal:#3b0f22; --edge:#33598a; --cloud:rgba(255,255,255,.07);
+    --bg:#2a2e30; --surface:#353a3c; --ink:#e8e4dd; --muted:#b5b1a9;
+    --line:#7d8b87; --grid:#495052;
+    --accent:#a7bfbd; --on-accent:#22292a;
+    --pencil:#d8bcb5; --pencil-ink:#3b2826;
+    --good:#a8c2a3; --good-bg:#3a493b; --bad:#e2aaa4; --bad-bg:#553b39;
+    --seal:#d5a6a1; --on-seal:#2d201f; --edge:#495052; --cloud:rgba(255,255,255,.04);
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#15294a; --surface:#1e3a64; --ink:#eef7ff; --muted:#b0c9e2;
-  --line:#5b92c4; --grid:#33598a;
-  --accent:#8fd0ff; --on-accent:#0b2038;
-  --pencil:#ffb9d0; --pencil-ink:#4a1730;
-  --good:#7fe3c4; --good-bg:#1b4d49; --bad:#ffa0b0; --bad-bg:#5a2a40;
-  --seal:#ff93b9; --on-seal:#3b0f22; --edge:#33598a; --cloud:rgba(255,255,255,.07);
+  --bg:#2a2e30; --surface:#353a3c; --ink:#e8e4dd; --muted:#b5b1a9;
+  --line:#7d8b87; --grid:#495052;
+  --accent:#a7bfbd; --on-accent:#22292a;
+  --pencil:#d8bcb5; --pencil-ink:#3b2826;
+  --good:#a8c2a3; --good-bg:#3a493b; --bad:#e2aaa4; --bad-bg:#553b39;
+  --seal:#d5a6a1; --on-seal:#2d201f; --edge:#495052; --cloud:rgba(255,255,255,.04);
   color-scheme:dark;
 }
 *{box-sizing:border-box}
@@ -234,7 +234,7 @@ mark{background:var(--pencil);color:var(--pencil-ink);border-radius:4px;padding:
 .sw.notime .sw-time,.sw.notime .sw-label{display:none}
 .sw.notime .acts{margin-top:0}
 /* 字型載入 */
-.fontload{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:24px;background:var(--bg,#e7f3fc)}
+.fontload{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:24px;background:var(--bg,#ece8e1)}
 .fontload[hidden]{display:none}
 .fl-box{width:min(360px,100%);text-align:center}
 .fl-box .cell{margin:0 auto 18px;animation:flpulse 1.4s ease-in-out infinite;font-family:var(--f-body)}
@@ -450,7 +450,7 @@ mark{background:var(--pencil);color:var(--pencil-ink);border-radius:4px;padding:
 <script>
 (function(){
 'use strict';
-var APP_VERSION='2.2.0',APP_DATE='2026-10-30',BANK_NEED='3.2.0';
+var APP_VERSION='2.3.0',APP_DATE='2026-10-30',BANK_NEED='3.2.0';
 var BANK=window.ZYZX_BANK;
 if(!Array.isArray(BANK)||!BANK.length){
   document.querySelector('main').innerHTML='<section><div class="empty"><div class="cell">庫</div><p><b>找不到題庫檔 bank.js</b></p><p>請把 bank.js 和這個網頁檔放在同一個資料夾，再重新打開網頁。</p></div></section>';
@@ -626,7 +626,7 @@ function renderHome(){
   $('#s-reset').textContent='清除所有紀錄';
   $('#s-note').textContent='紀錄只存在這台裝置的瀏覽器裡，換裝置或清除瀏覽資料就會消失。';
   var nv2=BANK.filter(function(i){return i.s==='v2'}).length;
-  $('#bank-note').textContent='題庫：字音字形中年級答案卷 '+BANK.filter(function(i){return !i.p}).length+' 題，多音字 '+BANK.filter(function(i){return i.p}).length+' 題'+(nv2?'（含多音字彙整表 v2 增補 '+nv2+' 題）':'')+'，共 '+CHARS.length+' 個字。';
+  $('#bank-note').textContent='題庫：一般題 '+BANK.filter(function(i){return !i.p}).length+' 題，多音字 '+BANK.filter(function(i){return i.p}).length+' 題'+(nv2?'（含多音字彙整表 v2 增補 '+nv2+' 題）':'')+'，共 '+CHARS.length+' 個字。';
   var bv=window.ZYZX_BANK_VERSION||'未知';
   $('#ver-note').innerHTML='程式 v'+APP_VERSION+'（'+APP_DATE+'）　題庫 v'+bv+(bv!==BANK_NEED?'　<b style="color:var(--bad)">題庫版本和程式要的（v'+BANK_NEED+'）不同，請重新整理，或清除瀏覽器快取。</b>':'');
   renderSelfTime();
