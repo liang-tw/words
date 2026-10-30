@@ -1,4 +1,4 @@
-<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="color-scheme" content="light"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
 <title>字音字形探險隊</title>
 <script>try{var _p=(JSON.parse(localStorage.getItem('zyzx-explorers-v1'))||{}).palette;if(_p==="d"||_p==="h")document.documentElement.setAttribute("data-palette",_p)}catch(e){}</script>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -18,27 +18,7 @@
   --f-body:'Noto Sans TC','PingFang TC','Microsoft JhengHei',system-ui,sans-serif;
   --f-kai:'EduKai','BiauKai','DFKai-SB','Kaiti TC','標楷體',serif;
 }
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#2a2e30; --surface:#353a3c; --ink:#e8e4dd; --muted:#b5b1a9;
-    --line:#7d8b87; --grid:#495052;
-    --accent:#a7bfbd; --on-accent:#22292a;
-    --pencil:#d8bcb5; --pencil-ink:#3b2826;
-    --good:#a8c2a3; --good-bg:#3a493b; --bad:#e2aaa4; --bad-bg:#553b39;
-    --seal:#d5a6a1; --on-seal:#2d201f; --edge:#495052; --cloud:rgba(255,255,255,.04);
-    color-scheme:dark;
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#2a2e30; --surface:#353a3c; --ink:#e8e4dd; --muted:#b5b1a9;
-  --line:#7d8b87; --grid:#495052;
-  --accent:#a7bfbd; --on-accent:#22292a;
-  --pencil:#d8bcb5; --pencil-ink:#3b2826;
-  --good:#a8c2a3; --good-bg:#3a493b; --bad:#e2aaa4; --bad-bg:#553b39;
-  --seal:#d5a6a1; --on-seal:#2d201f; --edge:#495052; --cloud:rgba(255,255,255,.04);
-  color-scheme:dark;
-}
-/* 色系切換：data-palette="d" 大耳狗、"h" Hello Kitty；沒有設定時是莫蘭迪（上面的預設值） */
+/* 色系切換：data-palette="d" 大耳狗、"h" Hello Kitty；沒有設定時是莫蘭迪（上面的預設值）。不支援夜間模式。 */
 :root[data-palette="d"]{
   --bg:#e6f4fd; --surface:#ffffff; --ink:#274a6b; --muted:#557590;
   --line:#8fcdf0; --grid:#cfeafa;
@@ -46,26 +26,6 @@
   --pencil:#ffc9da; --pencil-ink:#6a1f41;
   --good:#14866b; --good-bg:#d8f5ea; --bad:#cf3d5a; --bad-bg:#ffe3e9;
   --seal:#d63a73; --on-seal:#ffffff; --edge:#bfe0f4; --cloud:rgba(255,255,255,.9);
-}
-@media (prefers-color-scheme: dark){
-  :root[data-palette="d"]:not([data-theme="light"]){
-    --bg:#15294a; --surface:#1e3a64; --ink:#eef7ff; --muted:#b0c9e2;
-    --line:#5b92c4; --grid:#33598a;
-    --accent:#8fd0ff; --on-accent:#0b2038;
-    --pencil:#ffb9d0; --pencil-ink:#4a1730;
-    --good:#7fe3c4; --good-bg:#1b4d49; --bad:#ffa0b0; --bad-bg:#5a2a40;
-    --seal:#ff93b9; --on-seal:#3b0f22; --edge:#33598a; --cloud:rgba(255,255,255,.07);
-    color-scheme:dark;
-  }
-}
-:root[data-palette="d"][data-theme="dark"]{
-  --bg:#15294a; --surface:#1e3a64; --ink:#eef7ff; --muted:#b0c9e2;
-  --line:#5b92c4; --grid:#33598a;
-  --accent:#8fd0ff; --on-accent:#0b2038;
-  --pencil:#ffb9d0; --pencil-ink:#4a1730;
-  --good:#7fe3c4; --good-bg:#1b4d49; --bad:#ffa0b0; --bad-bg:#5a2a40;
-  --seal:#ff93b9; --on-seal:#3b0f22; --edge:#33598a; --cloud:rgba(255,255,255,.07);
-  color-scheme:dark;
 }
 :root[data-palette="h"]{
   --bg:#fff5f7; --surface:#ffffff; --ink:#3a2a30; --muted:#7a5562;
@@ -75,31 +35,11 @@
   --good:#2a7349; --good-bg:#dcf3e3; --bad:#c02443; --bad-bg:#ffe0e6;
   --seal:#d4123f; --on-seal:#ffffff; --edge:#ffd0dc; --cloud:rgba(255,255,255,.9);
 }
-@media (prefers-color-scheme: dark){
-  :root[data-palette="h"]:not([data-theme="light"]){
-    --bg:#2a1820; --surface:#3a2330; --ink:#fff0f4; --muted:#e0b6c4;
-    --line:#b0566f; --grid:#5a3344;
-    --accent:#ff8aa6; --on-accent:#2a0d17;
-    --pencil:#ffb3c7; --pencil-ink:#4a1027;
-    --good:#8fe0b0; --good-bg:#1f4a35; --bad:#ff9fb1; --bad-bg:#5c2233;
-    --seal:#ff7396; --on-seal:#2a0d17; --edge:#5a3344; --cloud:rgba(255,255,255,.06);
-    color-scheme:dark;
-  }
-}
-:root[data-palette="h"][data-theme="dark"]{
-  --bg:#2a1820; --surface:#3a2330; --ink:#fff0f4; --muted:#e0b6c4;
-  --line:#b0566f; --grid:#5a3344;
-  --accent:#ff8aa6; --on-accent:#2a0d17;
-  --pencil:#ffb3c7; --pencil-ink:#4a1027;
-  --good:#8fe0b0; --good-bg:#1f4a35; --bad:#ff9fb1; --bad-bg:#5c2233;
-  --seal:#ff7396; --on-seal:#2a0d17; --edge:#5a3344; --cloud:rgba(255,255,255,.06);
-  color-scheme:dark;
-}
 .pal{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:4px 0 8px}
 .pal button{min-height:56px;border-radius:12px;border:2px solid var(--edge);background:var(--surface);color:var(--ink);font-weight:700;font-size:.85rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:6px 4px}
 .pal button[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 3px 0 var(--ink)}
-.pal .sw3{display:flex;gap:3px}
-.pal .sw3 i{width:14px;height:14px;border-radius:50%;border:1px solid rgba(0,0,0,.15)}
+.pal .sw3{display:flex;gap:6px}
+.pal .sw3 i{width:22px;height:22px;border-radius:50%;border:1px solid rgba(0,0,0,.18)}
 .pal-t{margin:6px 0 0;font-size:.85rem;font-weight:700;color:var(--muted)}
 *{box-sizing:border-box}
 body{background-color:var(--bg);background-image:
@@ -395,9 +335,9 @@ mark{background:var(--pencil);color:var(--pencil-ink);border-radius:4px;padding:
       <div class="panel">
         <p class="pal-t">色系</p>
         <div class="pal" id="s-pal">
-          <button data-pal="m" aria-pressed="false"><span class="sw3"><i style="background:#ece8e1"></i><i style="background:#4f6f72"></i><i style="background:#ead7d1"></i></span>M 莫蘭迪</button>
-          <button data-pal="d" aria-pressed="false"><span class="sw3"><i style="background:#e6f4fd"></i><i style="background:#1b78bb"></i><i style="background:#ffc9da"></i></span>D 大耳狗</button>
-          <button data-pal="h" aria-pressed="false"><span class="sw3"><i style="background:#ffffff"></i><i style="background:#d4123f"></i><i style="background:#ffc2d1"></i></span>H Hello Kitty</button>
+          <button data-pal="m" aria-pressed="false" aria-label="莫蘭迪色系" title="莫蘭迪色系"><span class="sw3"><i style="background:#ece8e1"></i><i style="background:#4f6f72"></i><i style="background:#ead7d1"></i></span></button>
+          <button data-pal="d" aria-pressed="false" aria-label="大耳狗色系" title="大耳狗色系"><span class="sw3"><i style="background:#e6f4fd"></i><i style="background:#1b78bb"></i><i style="background:#ffc9da"></i></span></button>
+          <button data-pal="h" aria-pressed="false" aria-label="Hello Kitty 色系" title="Hello Kitty 色系"><span class="sw3"><i style="background:#ffffff"></i><i style="background:#d4123f"></i><i style="background:#ffc2d1"></i></span></button>
         </div>
         <div class="set-row">
           <button class="ghost" id="s-sound"></button>
@@ -520,7 +460,7 @@ mark{background:var(--pencil);color:var(--pencil-ink);border-radius:4px;padding:
 <script>
 (function(){
 'use strict';
-var APP_VERSION='2.4.0',APP_DATE='2026-10-30',BANK_NEED='3.2.0';
+var APP_VERSION='2.4.1',APP_DATE='2026-10-30',BANK_NEED='3.2.0';
 var BANK=window.ZYZX_BANK;
 if(!Array.isArray(BANK)||!BANK.length){
   document.querySelector('main').innerHTML='<section><div class="empty"><div class="cell">庫</div><p><b>找不到題庫檔 bank.js</b></p><p>請把 bank.js 和這個網頁檔放在同一個資料夾，再重新打開網頁。</p></div></section>';
